@@ -11,7 +11,7 @@ La carpeta **Registros** contiene herramientas para la creación de los archivos
 
 - [Descripción del Toolbox para los Registros](Registros/ReadMe.md)
 - <a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Registros/1_Asignar_fotos.exe" download>
-    <img src="https://img.shields.io/badge/Download%20Registros-green?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
+    <img src="https://img.shields.io/badge/Descargar%20Toolbox%20Registros-green?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
   </a>
 <!-- Añadir más secciones de toolbox según sea necesario -->
 
