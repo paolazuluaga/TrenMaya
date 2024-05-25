@@ -14,6 +14,10 @@ La carpeta **Registros** contiene herramientas para la creación de los archivos
     <img src="https://img.shields.io/badge/Download%20Registros-blue?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
   </a>
 
+- <a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Registros/1_Asignar_fotos.exe" download style="display: inline-block; padding: 10px 20px; font-family: Arial, sans-serif; font-size: 16px; color: white; background-color: green; text-align: center; text-decoration: none; border-radius: 5px; margin-top: 10px;">
+    Descargar Registros
+  </a>
+
 <!-- Añadir más secciones de toolbox según sea necesario -->
 
 ### PKs
