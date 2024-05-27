@@ -4,7 +4,7 @@ Herramientas (toolbox) destinadas a la creación de expedientes del acervo de ex
 
 <br><br>
 
-### Expedientes
+### 1. Expedientes
 
 La carpeta **Expedientes** contiene herramientas para la creación de los archivos de Registro, la creación de los gpck de los Dibujos y la Retícula y la creación de las imágenes para la Ficha de cada Monumento.
 
@@ -15,9 +15,9 @@ La carpeta **Expedientes** contiene herramientas para la creación de los archiv
 
 <!-- Añadir más secciones de toolbox según sea necesario -->
 
-<br>
+<br><br>
 
-### PKs
+### 2. PKs Monumentos
 
 Generar los archivos Geojson con los registro del encadenamiento de los monumentos de acuerdo al Kilometraje del Trazo Oficial para realizar una revisión en campo.
 
