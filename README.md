@@ -2,6 +2,7 @@
 ## Salvamento Arqueológico: Excavación
 Herramientas (toolbox) destinadas a la creación de expedientes del acervo de excavación arqueológica del Tren Maya. 
 
+<br><br>
 
 ### Expedientes
 
@@ -14,7 +15,7 @@ La carpeta **Expedientes** contiene herramientas para la creación de los archiv
 
 <!-- Añadir más secciones de toolbox según sea necesario -->
 
-
+<br>
 
 ### PKs
 
