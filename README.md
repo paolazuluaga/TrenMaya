@@ -21,7 +21,11 @@ La carpeta **Registros** contiene herramientas para la creación de los archivos
 Generar los archivos Geojson con los registro del encadenamiento de los monumentos de acuerdo al Kilometraje del Trazo Oficial para realizar una revisión en campo.
 
 - <a href="https://raw.githack.com/paolazuluaga/TrenMaya/main/PKs_Monumentos/ReadMe.html" target="_blank">Descripción e Implementación</a>
-- [Descargar Herramienta PKs](OtraCarpeta.zip)
+- - <a href="https://github.com/paolazuluaga/TrenMaya/blob/main/PKs_Monumentos/Pks_Monumentos.zip" download>
+    <img src="https://img.shields.io/badge/Descargar%20Toolbox%20PKs-orange?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
+  </a>
+
+
 
 Explora las diferentes herramientas y descarga las que necesites. Cada sección incluye un enlace para más información y un botón para descargar directamente los contenidos.
 
