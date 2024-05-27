@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentación QGIS Scripts y Modelo</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            zoom: 80%; /* Ajusta el zoom de toda la página al 80% */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="text-center mb-5">Documentación Modelo QGIS - Pks Monumentos</h1>
+
+    <div class="card card-body">
+        <!-- Descripción General -->
+        <div class="mb-3">
+            <h4>Descripción</h4>
+            <p>El objetivo es generar los archivos Geojson con los registro del encadenamiento de los monumentos de acuerdo al Kilometraje del Trazo Oficial para realizar una revisión en campo.</p>
+        </div>
+
+        <!-- Implementacion -->
+        <div class="mb-5">
+            <h4>Implementación en QGIS</h4>
+            <p>El primer paso es importar los scripts de python <code>lrs_measure.py</code> y <code>SubtramoyPartes.py</code> para incorporar las funciones del calculo de LRS y los Subtramos en la caja de herramientas.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="img/importar_script.jpg" class="w-50" alt="Importar Script en QGIS">
+                </div>
+            </div>
+            <p class="mt-4">El segundo paso es importar el modelo de QGIS dentro de la caja de herramientas.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="img/importar_modelo.jpg" class="w-50" alt="Importar Modelo en QGIS">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Python -->
+    <div class="mt-5 mb-5">
+        <h2>Scripts de Python</h2>
+
+        <!-- Collapse para Calculate Measurements LRS -->
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMeasurements" aria-expanded="false" aria-controls="collapseMeasurements">
+                Calculate Measurements LRS  <i class="bi bi-chevron-down"></i>
+            </button>
+        </p>
+        <div class="collapse" id="collapseMeasurements">
+            <div class="card card-body">
+                <h3>Calculate Measurements LRS</h3>
+                <p>Este script para QGIS es una adaptación del código original de LRS creado por Radim Blazek, Simon South y Christophe Damour, disponible en: <a href="https://github.com/blazek/lrs/?tab=readme-ov-file" target="_blank">Código Original LRS</a>. El script ha sido modificado para ser utilizado directamente dentro de la caja de herramientas de QGIS como un algoritmo de procesamiento.</p>
+                <h4>Descripción</h4>
+                <p>Este algoritmo calcula las distancias medidas a lo largo de las líneas más cercanas desde puntos dados. Es especialmente útil para calcular la distancia acumulada que existe entre cada Monumento proyectado sobre el Trazo oficial.</p>
+                <h4>Funcionalidad</h4>
+                <ul>
+                    <li>Recibe dos capas como entrada: la capa de Monumentos cédulas (puntos) y la capa del Trazo Oficial (línea).</li>
+                    <li>Verifica que ambos sistemas de coordenadas de las capas estén proyectados en metros y que no sean sistemas geográficos para garantizar mediciones precisas.</li>
+                    <li>Asegura que ambas capas compartan el mismo sistema de coordenadas.</li>
+                    <li>Calcula la distancia más corta desde cada punto (Monumentos) a la línea más cercana, en este caso el Trazo oficial</li>
+                    <li>Calcula la medida lineal a lo largo del Trazo desde su inicio hasta el punto más cercano a cada punto de entrada.</li>
+                    <li>Genera una nueva capa de salida con las medidas calculadas como atributos adicionales.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Collapse para Subtramo y Parte -->
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSubtramoParte" aria-expanded="false" aria-controls="collapseSubtramoParte">
+                Subtramo y Parte  <i class="bi bi-chevron-down"></i>
+            </button>
+        </p>
+        <div class="collapse" id="collapseSubtramoParte">
+            <div class="card card-body">
+                <h3>Subtramo y Parte</h3>
+                <p>Este script para QGIS es una herramienta de procesamiento que permite clasificar los puntos de los Monumentos según segmentos y partes de un sistema de referencia lineal (LRS), por lo tanto asignará el Subtramo que le corresponde y el número de parte en que será dividido. Está diseñado para ser utilizado directamente dentro de la caja de herramientas de QGIS como un algoritmo de procesamiento.</p>
+                <h4>Descripción</h4>
+                <p>Este algoritmo organiza una capa de puntos (Monumentos cédulas), que debe contener una columna de medidas lineales (la cual se calculó previamente con LRS), en subtramos y partes basadas en criterios predefinidos. Cada punto es asignado a un subtramo y una parte, donde cada subtramo puede contener múltiples partes, y cada parte está limitada a un número específico de puntos.</p>
+                <h4>Funcionalidad</h4>
+                <p>El script realiza las siguientes operaciones:</p>
+                <ol>
+                    <li>Recibe una capa de entrada (Monumentos_cedulas) que debe tener una columna 'Measure' con valores de distancia lineal, esta columna debe ser precalculada con LRS.</li>
+                    <li>Crea una nueva columna en la capa de salida que representa el subtramo y la parte a la que cada punto pertenece.</li>
+                    <li>Clasifica los puntos en subtramos basados en los valores de 'Measure':
+                        <ul>
+                            <li>Subtramo 1 para medidas menores a 27000.</li>
+                            <li>Subtramo 2 para medidas entre 27000 y 47000.</li>
+                            <li>Subtramo 3 para medidas mayores o iguales a 47000.</li>
+                        </ul>
+                    </li>
+                    <li>Organiza los puntos en partes dentro de cada subtramo, reiniciando el conteo de partes cada vez que se inicia un nuevo subtramo y cada 1000 puntos.</li>
+                    <li>Proporciona una salida detallada que identifica a qué subtramo y parte pertenece cada punto.</li>
+                </ol>
+                
+                <h4>Parámetros</h4>
+                <ul>
+                    <li><strong>Capa de entrada</strong>: Capa de Monumentos_cedula (puntos) con medidas lineales calculadas.</li>
+                    <li><strong>Capa de salida</strong>: Capa de puntos resultante con una nueva columna que indica el subtramo y la parte a la que pertenece cada punto.</li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección fija del Modelo -->
+    <div class="mt-5 mb-5">
+        <h2>Modelo QGIS</h2>
+        <div class="card card-body">
+            <h4>Modelo PKs Monumentos</h4>
+            <p>PKs de los monumentos (cedulas y lineas) en formato Geojson para mapper.</p>
+            <h5>Descripción General</h5>
+            <p>Este modelo realiza varias operaciones de procesamiento de datos, incluyendo la reproyección de capas, cálculos de medidas lineales (LRS), creación de campos para marcadores de distancia, filtrado por atributos, y finalmente, la exportación de resultados a formato GeoJSON.</p>
+            <p>El objetivo es generar los archivos Geojson con los registro del encadenamiento de los monumentos para ser usados en el Mapper</p>
+            <h5>Pasos del Modelo</h5>
+            <ol>
+                <li><strong>Reproyección de Capas</strong>: Las capas de entrada son transformadas a un sistema de referencia de coordenadas (SRC) especificado, asegurando la uniformidad en las mediciones y análisis.</li>
+                <li><strong>Cálculo de Medidas Lineales (LRS)</strong>: Se calcula la ubicación lineal de los monumentos (puntos) sobre las líneas de trazo oficial para determinar su posición precisa en la ruta.</li>
+                <li><strong>Creación de Campos para Marcadores de Distancia (PK)</strong>: Se añaden campos para indicar la posición kilométrica de los monumentos a lo largo de las rutas.</li>
+                <li><strong>Filtrado por Fecha</strong>: Los datos pueden ser filtrados para incluir sólo aquellos registros que cumplan con ciertos criterios temporales. Se filtran del 2022-01-04 en adelante.</li>
+                <li><strong>Ordenación y Serialización</strong>: Los datos se ordenan y numeran secuencialmente para facilitar su análisis y referencia.</li>
+                <li><strong>Cálculo de Subtramos y Partes</strong>: Basado en las medidas lineales, se segmenta cada ruta en subtramos y partes (cada 1000 registros), clasificando cada elemento según su ubicación en la ruta.
+                    <ul>
+                        <li>Subtramo 1 para medidas menores a 27000.</li>
+                        <li>Subtramo 2 para medidas entre 27000 y 47000.</li>
+                        <li>Subtramo 3 para medidas mayores o iguales a 47000.</li>
+                    </ul>
+                </li>
+                <li><strong>Exportación a GeoJSON</strong>: Los resultados del análisis se dividen por subtramo y parte, y se exportan en formato GeoJSON para su uso en Mapper para la revisión de los monumentos en campo.</li>
+            </ol>
+            <h5>Configuración y Uso</h5>
+            <p>Una vez añadido a la caja de herramientas de procesamiento de QGIS, busca la herramienta llamada <code>Pks Monumentos</code>. Configura los parámetros necesarios como capas de entrada y el sistema de referencia de coordenadas deseado. Ejecuta el modelo desde la interfaz de procesamiento y selecciona las ubicaciones de salida para los archivos GeoJSON generados.</p>
+            <img src="img/Pks Monumentos.jpg" class="w-50" alt="Uso del modelo en QGIS">
+        </div>
+    </div>
+
+    <!-- Datos de Contacto -->
+    <div class="mt-5">
+        <h6>Desarrollo</h6>
+        <p>Paola Mejía Zuluaga - Enlace Tramo 5s</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
