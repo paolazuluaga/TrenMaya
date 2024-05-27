@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolbox de Expedientes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            zoom: 80%; /* Ajusta el zoom de toda la página al 80% */
+        }
+                /* Estilos personalizados para los botones */
+                .btn-custom-1 {
+            background-color: #67a9cf;
+            color: #fff;
+            font-size: 1.1rem; /* Tamaño de fuente grande */
+            padding: 2px 10px; /* Espaciado interno */
+            border: None;
+            text-align: left;
+            width: 160px;
+            display: flex; /* Usar flexbox para alinear el contenido */
+            justify-content: space-between; /* Espaciado entre el texto y el icono */
+        }
+        .btn-custom-2 {
+            background-color: #3690c0;
+            color: #fff;
+            font-size: 1.1rem; /* Tamaño de fuente grande */
+            padding: 2px 10px; /* Espaciado interno */
+            border: None;
+            text-align: left;
+            width: 170px; 
+            display: flex; /* Usar flexbox para alinear el contenido */
+            justify-content: space-between; /* Espaciado entre el texto y el icono */
+        }
+        .btn-custom-3 {
+            background-color: #02818a;
+            color: #fff;
+            font-size: 1.1rem; /* Tamaño de fuente grande */
+            padding: 2px 10px; /* Espaciado interno */
+            border: None;
+            text-align: left;
+            width: 180px; 
+            display: flex; /* Usar flexbox para alinear el contenido */
+            justify-content: space-between; /* Espaciado entre el texto y el icono */
+        }
+        .btn-custom-4 {
+            background-color: #016c59;
+            color: #fff;
+            font-size: 1.1rem; /* Tamaño de fuente grande */
+            padding: 2px 10px; /* Espaciado interno */
+            border: None;
+            text-align: left;
+            width: 190px; 
+            display: flex; /* Usar flexbox para alinear el contenido */
+            justify-content: space-between; /* Espaciado entre el texto y el icono */
+        }
+        .btn-custom-5 {
+            background-color: #014636;
+            color: #fff;
+            font-size: 1.1rem; /* Tamaño de fuente grande */
+            padding: 2px 10px; /* Espaciado interno */
+            border: None;
+            text-align: left;
+            width: 200px;
+            display: flex; /* Usar flexbox para alinear el contenido */
+            justify-content: space-between; /* Espaciado entre el texto y el icono */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Toolbox para crear Expedientes</h1>
+        <p>Herramientas para facilitar la creación de los Expedientes.</p>
+        <ul>
+            <li><strong>1_Asignar_fotos:</strong>   Archivo ejecutable que permite crear un CSV con la corrección y asignación de las fotografías en el Registro del Arqueólogo.</li>
+            <li><strong>2_Crear_registro:</strong> Realiza el Join del Registro del arqueólogo con el Concentrado de Topografía para asignar las coordenadas a cada uno de los registros del monumentos. Con esta herramienta se crean los TX_00000_Registro_Arqueologo.xlsx, TX_00000_topografo.csv y TX_00000_Registro_gpck.</li>
+            <li><strong>3_DPP_DPL:</strong> Modelo QGIS que convierte los dxf en los dibujos finales de DPP y DPL en gpck.</li>
+            <li><strong>4_RETICULA:</strong> Modelo QGIS que convierte el dxf de la reticula en gpck y de acuerdo a los puntos UEXC actualiza los atributos excavacos con 1 y los que no con 0.</li>
+            <li><strong>5_Crear_IMG_Ficha:</strong> Modelo QGIS.py que genera las imágenes de la Ortofoto y el RVT para la ficha final.</li>
+        </ul>
+    
+
+        <div class="mt-5 mb-5">
+            <h2>Toolbox</h2>
+
+            <!-- Collapse para 1_Asignar_fotos -->
+            <p>
+                <button class="btn-custom-1" type="button" data-toggle="collapse" data-target="#collapseAsignar_fotos" aria-expanded="false" aria-controls="collapseAsignar_fotos">
+                    1 Asignar fotos  <i class="bi bi-chevron-down"></i>
+                </button>
+            </p>
+            <div class="collapse" id="collapseAsignar_fotos">
+                <div class="card card-body">
+                    <h3>Asignación y Match de Nombres de Fotos de Arqueología</h3>
+                    <p>Esta herramienta busca hacer match de los nombres de las fotos de arqueología en el archivo Excel del Registro de Excavación de Arqueología.</p>
+                    
+                    <h4>Entradas</h4>
+                    <ul>
+                        <li><strong>Ruta del archivo de Excel del registro de arqueología:</strong> Especifica la ubicación del archivo Excel que contiene el registro de excavación.</li>
+                        <li><strong>Ruta de las fotos de arqueología:</strong> Especifica la ubicación de la carpeta que contiene las fotos de arqueología.</li>
+                        <li><strong>ID Enlace:</strong> Identificador único del enlace.</li>
+                    </ul>
+                    
+                    <h4>Salidas</h4>
+                    <ul>
+                        <li><strong>Archivo CSV del Registro de Arqueología:</strong> Archivo actualizado con el nombre correcto de las fotografías asignadas.</li>
+                    </ul>
+                    
+                    <h5>Revisiones de Información</h5>
+                    <ul>
+                        <li>Valida y muestra las fotografías que no hicieron match y no fueron asignadas.</li>
+                        <li>Verifica e imprime las razones por las cuales la imagen no fue asignada.</li>
+                        <li>Implementación de la versión ejecutable con interfaz gráfica.</li>
+                    </ul>
+
+                    <img src="imgs/1_asignar_fotos.png" style="width: 400px; height: auto;" alt="1_asignar_fotos">
+                    <p>Nota: En el archivo original del Registro del Arqueólogo, la Tabla_Registro debe ir en la primera hoja del archivo de excel.</p>
+                    
+                    <br>
+
+                    <h4>Implementación</h4>
+                    <p>Es un archivo ejecutable, por lo tanto no es necesario realizar ninguna instalación. Vamos a dar doble clic sobre el archivo y darle los permisos de confianza para ejecutarlo.</p>
+                    
+                    <br>
+
+                    <p class="mt-4"><small>Desarrollado por: Paola Zuluaga</small></p>
+                </div>
+            </div>
+
+
+            <!-- Collapse para 2_Crear_registro -->
+            <p>
+                <button class="btn-custom-2" type="button" data-toggle="collapse" data-target="#collapseCrear_Registro" aria-expanded="false" aria-controls="collapseCrear_Registro">
+                    2 Crear registro  <i class="bi bi-chevron-down"></i>
+                </button>
+            </p>
+            <div class="collapse" id="collapseCrear_Registro">
+                <div class="card card-body">
+                    <h4>Creación Registro - Expediente de Excavación</h4>
+                    <p>Esta herramienta crea el registro del expediente de excavación de arqueología mediante el join entre el registro arqueológico con corrección de fotos y el concentrado de topografía.</p>
+                    
+                    <h5>Entradas</h5>
+                    <ul>
+                        <li>Ruta del archivo de Excel del registro de arqueología con las fotos ya corregidas en el paso 1</li>
+                        <li>Ruta al Concentrado de topografía en GPCK</li>
+                        <li>ID Monumento (i.e. TX_00000): ID único del monumento utilizado para enlazar los registros con el monumento correspondiente.</li>
+                    </ul>
+                    
+                    <h5>Salidas</h5>
+                    <ul>
+                        <li><strong>Archivo XLSX</strong> Registro del Arqueólogo: Archivo actualizado con el nombre correcto de las fotografías y las coordenadas del Concentrado de Topo</li>
+                        <li><strong>Archivo CSV</strong> Registro del Topógrafo: Archivo de topografía del monumento con los atributos: Clave de excavacion | X | Y | Z | Codigo | Fecha de registro</li>
+                        <li><strong>Archivo GPCK</strong>  Registro de Excavación geoespacializado: Archivo GeoPackage que contiene los datos del registro de excavación georreferenciados.</li>
+                    </ul>
+                    
+                    <h5>Revisiones de Información</h5>
+                    <ul>
+                        <li>Revisión de diferencias en los códigos de arqueología y topografía antes de realizar el merge.</li>
+                        <li>Filtrado y revisión de datos para asegurar que los registros de topografía coinciden con el ID del monumento.</li>
+                        <li>Conteo y análisis de registros de arqueología y topografía, incluyendo la verificación de coordenadas nulas.</li>
+                        <li>Revisión y reporte de registros sin coincidencia entre arqueología y topografía.</li>
+                    </ul>
+                    
+
+                    <img src="imgs/2_crear_registro.png" style="width: 600px; height: auto;" alt="2_crear_registro">
+                    <p>Nota: El Registro del Arqueólogo debe ser el archivo generado en el paso 1 con la herramienta Asignar_fotos</p>
+                    
+                    <br>
+
+                    <h4>Implementación</h4>
+                    <p>Es un archivo ejecutable, por lo tanto no es necesario realizar ninguna instalación. Vamos a dar doble clic sobre el archivo y darle los permisos de confianza para ejecutarlo.</p>
+                                      
+                    <br>
+
+                    <p class="mt-4"><small>Desarrollado por: Paola Zuluaga</small></p>
+                </div>
+            </div>
+
+
+
+            <!-- Collapse para 3_DPP_DPL -->
+            <p>
+                <button class="btn-custom-3" type="button" data-toggle="collapse" data-target="#collapseDPP_DPL" aria-expanded="false" aria-controls="collapseDPP_DPL">
+                    3 DPP y DPL  <i class="bi bi-chevron-down"></i>
+                </button>
+            </p>
+            <div class="collapse" id="collapseDPP_DPL">
+                <div class="card card-body">
+                    <h4>Modelo QGIS - DPP_DPL</h4>
+                    <p>Este Modelo QGIS "DPP_DPL" procesa datos de DXF y genera los DPP y DPL en una capa vectorial que puede ser guardada como GPCK</p>
+                    
+                    <h5>Entradas</h5>
+                    <ul>
+                        <li><strong>Planta DXF:</strong> Archivo DXF que contiene los datos de planta.</li>
+                        <li><strong>SRC:</strong> Sistema de referencia de coordenadas (CRS)'.</li>
+                        <li><strong>Tramo:</strong> Selección del tramo (opciones: 1 al 7).</li>
+                        <li><strong>ID Arquitecto:</strong> ID único del arquitecto.</li>
+                    </ul>
+                    
+                    <h5>Salidas</h5>
+                    <ul>
+                        <li><strong>DPP:</strong> Archivo vectorial que contiene los datos de DPP (Detalle Planta y Proyección).</li>
+                        <li><strong>DPL:</strong> Archivo vectorial que contiene los datos de DPL (Detalle Planta y Líneas).</li>
+                    </ul>
+
+                    <h5>Validaciones de la Información</h5>
+                    <p>El modelo incluye varias validaciones para asegurar la integridad y exactitud de los datos procesados:</p>
+                    <ul>
+                        <li>Asignación de la proyección CRS para asegurar la consistencia espacial de los datos.</li>
+                        <li>Corrección de geometrías para evitar errores en los datos espaciales.</li>
+                        <li>Conversión de líneas a polígonos para un procesamiento adecuado.</li>
+                        <li>Extracción de elementos específicos ('PROY') para un procesamiento detallado.</li>
+                        <li>Cálculo de campos adicionales ('ID Monumento', 'ID Arquitectura', 'Descripción', 'ID Arquitecto') para completar la información de los datos procesados.</li>
+                        <li>Filtrado de elementos para la salida DPP asegurando la exclusión de arquitecturas no deseadas ('CURV' y 'PROY').</li>
+                    </ul>
+
+                    <img src="imgs/3_dpp_dpl.png" style="width: 400px; height: auto;" alt="3_model_3q">
+                    
+                    <br><br>
+
+                    <h4>Implementación</h4>
+                    <p>Modelo de QGIS, para que esté disponible directamente desde la caja de herramientas es necesario importarlo desde la sección de Modelos.</p>
+                    <img src="imgs/importar_modelo.jpg" style="width: 200px; height: auto;" alt="3_dpp_dpl">
+
+                    <br>
+
+                    <p class="mt-4"><small>Desarrollado por: Edgar García</small></p>
+                </div>
+            </div>
+
+
+            <!-- Collapse para 4_reticula -->
+            <p>
+                <button class="btn-custom-4" type="button" data-toggle="collapse" data-target="#collapseRETICULA" aria-expanded="false" aria-controls="collapseRETICULA">
+                    4 Retícula  <i class="bi bi-chevron-down"></i>
+                </button>
+            </p>
+            <div class="collapse" id="collapseRETICULA">
+                <div class="card card-body">
+                    <h4>Modelo QGIS - Retícula</h4>
+                    <p>El modelo QGIS "Retícula" crear y procesar una cuadrícula (retícula) geoespacial basada en los parámetros del dxf</p>
+                    
+                    <h5>Entradas</h5>
+                    <ul>
+                        <li><strong>Add_RETI:</strong> Capa de dxf de la reticula.</li>
+                        <li><strong>CRS:</strong> Sistema de referencia de coordenadas (CRS).</li>
+                        <li><strong>ID Enlace:</strong> ID único del enlace</li>
+                        <li><strong>Puntos UEXC:</strong> Capa vectorial opcional de puntos UEXC.</li>
+                        <li><strong>Tramo:</strong> Selección del tramo (opciones: 1 al 7).</li>
+                    </ul>
+                    
+                    <h5>Salidas</h5>
+                    <ul>
+                        <li><strong>Retícula:</strong> Archivo vectorial que contiene la retícula procesada, indicando 1 cuando está excavada y 0 cuando no</li>
+                    </ul>
+
+                    <img src="imgs/4_reticula.png" style="width: 400px; height: auto;" alt="4_RETICULA">
+
+                    <br><br>
+
+                    <h4>Implementación</h4>
+                    <p>Modelo de QGIS, para que esté disponible directamente desde la caja de herramientas es necesario importarlo desde la sección de Modelos.</p>
+                    <img src="imgs/importar_modelo.jpg" style="width: 200px; height: auto;" alt="3_model_3q">
+                 
+                    <br>
+
+                    <p class="mt-4"><small>Desarrollado por: Edgar García y Actualizado por: Paola Zuluaga</small></p>
+                </div>
+            </div>
+
+
+            
+            <!-- Collapse para 5_img_ficha -->
+            <p>
+                <button class="btn-custom-5" type="button" data-toggle="collapse" data-target="#collapseImg_ficha" aria-expanded="false" aria-controls="collapseImg_ficha">
+                    5 Crear Img Ficha <i class="bi bi-chevron-down"></i>
+                </button>
+            </p>
+            <div class="collapse" id="collapseImg_ficha">
+                <div class="card card-body">
+                    <h4 class="mb-4">Modelo QGIS - Exportar IMG ORTO y RVT</h4>
+                    <p>El modelo QGIS "Export Layout for ORTO and RVT" exporta las imágenes de la Ortofoto y del RVT con la simbología aplicada</p>
+                    
+                    <h5>Entradas</h5>
+                    <ul>
+                        <li><strong>Select DEM:</strong> Capa raster de elevación digital (DEM).</li>
+                        <li><strong>Select ORTO:</strong> Capa raster de ortofoto (ORTO).</li>
+                        <li><strong>Select RVT:</strong> Capa raster de relieves visualizados (RVT).</li>
+                        <li><strong>Select Topography points:</strong> Capa vectorial que define el área de interés (Puede ser el GPCK del Registro, el DPP, ...</li>
+                        <li><strong>Buffer Factor Zoom Out:</strong> Factor de buffer opcional para el zoom de salida (rango: 0-2). Valores recomendados (0.0 - 0.3 - 0.5)</li>
+                        <li><strong>Output Folder:</strong> Carpeta de destino para guardar las imágenes</li>
+                    </ul>
+                    
+                    <h5>Salidas</h5>
+                    <ul>
+                        <li><strong>Imágenes en la carpeta de salida:</strong> Carpeta que contiene las imágenes exportadas de las capas ORTO (LR_ORTO) y RVT (LR_RVT) en formato jpg y 1080 px</li>
+                    </ul>
+                    
+                    <h5>Procesamiento</h5>
+                    <p>El modelo realiza los siguientes pasos para procesar los datos de entrada y generar las salidas:</p>
+                    <ol>
+                        <li>Aplicar simbología pseudocolor a la capa DEM.</li>
+                        <li>Crear y exportar la disposición (layout) de la capa RVT con la simbología aplicada.</li>
+                        <li>Crear y exportar la disposición (layout) de la capa ORTO.</li>
+                    </ol>
+
+                    <h5>Validaciones de las capas</h5>
+                    <ul>
+                        <li>Verificar que las capas raster sean válidas y tengan un renderizador.</li>
+                        <li>Aplicar simbología pseudocolor al DEM basado en estadísticas de banda.</li>
+                        <li>Calcular la extensión de la capa de interés y ajustar el buffer para asegurar una cobertura completa.</li>
+                        <li>Asegurar que las capas DEM y RVT se muestran correctamente en el layout exportado.</li>
+                    </ul>
+                    <img src="imgs/5_export_img_ficha.png" style="width: 400px; height: auto;" alt="5_img_ficha">
+                    <p>Nota: en caso de usar la fotogrametría de otro monumento, renombrar las imágenes finales con el ID de Monumento correcto</p>
+                    
+                    <br><br>
+
+                    <h4>Implementación</h4>
+                    <p>Modelo de python en QGIS, para que esté disponible directamente desde la caja de herramientas es necesario importarlo desde la sección de Python.</p>
+                    <img src="imgs/importar_script.jpg" style="width: 250px; height: auto;" alt="3_modelo_py">
+
+                    <br>
+
+                    <p class="mt-4"><small>Desarrollado: Paola Zuluaga</small></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
