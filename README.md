@@ -10,7 +10,7 @@ Herramientas (toolbox) destinadas a la creación de expedientes del acervo de ex
 La carpeta **Registros** contiene herramientas para la creación de los archivos de Registro, la creación de los gpck de los Dibujos y la Retícula y la creación de las imágenes para la Ficha de cada Monumento.
 
 - [Descripción del Toolbox para los Registros](Registros/ReadMe.md)
-<a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Registros/1_Asignar_fotos.exe" download>
+<a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Registros" download>
     <img src="https://img.shields.io/badge/Descargar%20Toolbox%20Registros-green?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
   </a>
 
