@@ -3,13 +3,16 @@ Model exported as python.
 Name : modelo
 Group : 
 With QGIS : 33601
+Author: Paola Mejia-Zuluaga
+Date: 27/04/2024
+Modified date: 28/04/2024
 """
 from qgis.core import (QgsProcessing, QgsProcessingAlgorithm, QgsProcessingParameterRasterLayer,
                        QgsProcessingParameterVectorLayer, QgsProcessingParameterFolderDestination, 
                        QgsProject, QgsPrintLayout, QgsLayoutItemMap, QgsLayoutSize, 
                        QgsLayoutExporter, QgsRasterLayer, QgsSingleBandPseudoColorRenderer, 
                        QgsColorRampShader, QgsRasterShader, QgsApplication, QgsRasterBandStats,
-                       QgsRectangle, QgsProcessingParameterNumber)
+                       QgsRectangle, QgsProcessingParameterNumber, QgsProcessingParameterString)
 from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtCore import QCoreApplication
 import os
@@ -20,6 +23,7 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
     DEM_LAYER = 'DEM_LAYER'
     AREA_LAYER = 'AREA_LAYER'  # Capa vectorial que define el área de interés
     BUFFER_FACTOR = 'BUFFER_FACTOR'  # New parameter for buffer factor
+    BASE_NAME = 'BASE_NAME'  # New parameter for optional base name
     OUTPUT_FOLDER = 'OUTPUT_FOLDER'
 
     def tr(self, string):
@@ -44,26 +48,26 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterRasterLayer(
                 self.DEM_LAYER,
-                self.tr("Select DEM")
+                self.tr("Seleccionar DEM")
             )
         )
         
         self.addParameter(
             QgsProcessingParameterRasterLayer(
                 self.ORTO_LAYER,
-                self.tr("Select ORTO")
+                self.tr("Seleccionar ORTOFOTO")
             )
         )
         self.addParameter(
             QgsProcessingParameterRasterLayer(
                 self.RVT_LAYER,
-                self.tr("Select RVT")
+                self.tr("Seleccionar RVT")
             )
         )
         self.addParameter(
         QgsProcessingParameterVectorLayer(
             self.AREA_LAYER,
-            self.tr("Select Topography points")
+            self.tr("Seleccionar Capa vectorial de referencia")
         )
         )
         self.addParameter(
@@ -77,9 +81,17 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
             )
         )
         self.addParameter(
+            QgsProcessingParameterString(
+                self.BASE_NAME,
+                self.tr("ID Monument"),
+                defaultValue=None,  # Default value is None which means it's optional
+                optional=True
+            )
+        )
+        self.addParameter(
             QgsProcessingParameterFolderDestination(
                 self.OUTPUT_FOLDER,
-                self.tr("Output Folder")
+                self.tr("Ruta carpeta de salida")
             )
         )
         
@@ -91,7 +103,16 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
         dem_layer = self.parameterAsRasterLayer(parameters, self.DEM_LAYER, context)
         area_layer = self.parameterAsVectorLayer(parameters, self.AREA_LAYER, context)
         buffer_factor = self.parameterAsDouble(parameters, self.BUFFER_FACTOR, context)
+        base_name = self.parameterAsString(parameters, self.BASE_NAME, context)
         output_folder = self.parameterAsString(parameters, self.OUTPUT_FOLDER, context)
+
+        # Use the provided base name or default to layer name method
+        if not base_name:
+            # Calculate base name from layer names as fallback
+            if rvt_layer:
+                base_name = rvt_layer.name()[:8]
+            elif orto_layer:
+                base_name = orto_layer.name()[:8]
         
         if area_layer:
             extent = area_layer.extent()
@@ -102,15 +123,12 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
 
         # Apply pseudocolor style to RVT layer
         if rvt_layer:
-            #elf.apply_pseudocolor_style(dem_layer)
-            base_name = rvt_layer.name()[:8]
             layout = self.create_layout(f"{base_name}_LR_RVT", dem_layer, rvt_layer, area_layer,buffer_factor)
             output_path = os.path.join(output_folder, f"{base_name}_LR_RVT.jpg")
             self.export_layout(layout, output_path)
 
         # Export ORTO layer without applying pseudocolor style
         if orto_layer:
-            base_name = orto_layer.name()[:8]
             layout = self.create_layout(f"{base_name}_LR_ORTO", orto_layer, None, area_layer,buffer_factor)
             output_path = os.path.join(output_folder, f"{base_name}_LR_ORTO.jpg")
             self.export_layout(layout, output_path)
@@ -168,55 +186,7 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
             raise Exception("Layer is not valid")
         if not main_layer.renderer():
             raise Exception("Layer has no renderer")
-            
 
-        """
-        # Op 1 - extent layour
-        if area_layer:
-            extent = area_layer.extent()
-            centroid = extent.center()
-            # Increase the buffer to zoom out more, you can adjust the factor as needed
-            buffer_width = extent.width() * buffer_factor  # Increase the width buffer
-            buffer_height = extent.height() * buffer_factor  # Increase the height buffer
-            new_extent = QgsRectangle(
-                centroid.x() - buffer_width, centroid.y() - buffer_height,
-                centroid.x() + buffer_width, centroid.y() + buffer_height
-            )
-            map.setExtent(new_extent)
-        else:
-            map.setExtent(main_layer.extent())
-            
-        
-        # Op 2 - extent layour
-        if area_layer:
-            extent = area_layer.extent()
-            centroid = extent.center()
-            buffered_extent = extent.buffered(extent.width() * buffer_factor / 2)  # Ajusta el buffer basado en el zoom_factor
-            map.setExtent(buffered_extent)
-        else:
-            map.setExtent(main_layer.extent())
-        
-        if background_layer:
-            map.setLayers([background_layer, main_layer])  # Asegúrate de que el DEM está sobre el RVT
-        else:
-            map.setLayers([main_layer])
-            
-        
-        # Op 3 - extent layour
-        if area_layer:
-            extent = area_layer.extent()
-            centroid = extent.center()
-            # Ampliar la extensión en todas direcciones para asegurar cobertura completa
-            buffered_extent = QgsRectangle(
-                centroid.x() - extent.width() * buffer_factor / 2,
-                centroid.y() - extent.height() * buffer_factor / 2,
-                centroid.x() + extent.width() * buffer_factor / 2,
-                centroid.y() + extent.height() * (buffer_factor / 2 - 0.2)
-            )
-            map.setExtent(buffered_extent)
-        else:
-            map.setExtent(main_layer.extent())
-        """
         
         if area_layer:
             extent = area_layer.extent()
@@ -230,13 +200,11 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
             
             # Ajustar la extensión para que se adapte a la relación de aspecto del layout
             if extent_aspect > layout_aspect:
-                # La extensión es más ancha que el layout
                 new_height = extent_buffered.width() / layout_aspect
                 center = extent_buffered.center()
                 extent_buffered.setYMinimum(center.y() - new_height / 2)
                 extent_buffered.setYMaximum(center.y() + new_height / 2)
             else:
-                # La extensión es más alta que el layout
                 new_width = extent_buffered.height() * layout_aspect
                 center = extent_buffered.center()
                 extent_buffered.setXMinimum(center.x() - new_width / 2)
@@ -247,10 +215,8 @@ class ExportLayoutAlgorithm(QgsProcessingAlgorithm):
             map.setExtent(main_layer.extent())
         
         
-        
-        # Asegurar que el DEM se muestre sobre el RVT
         if background_layer:
-            map.setLayers([main_layer, background_layer])  # Asegúrate de que el DEM está sobre el RVT
+            map.setLayers([main_layer, background_layer])
         else:
             map.setLayers([main_layer])
         layout.addLayoutItem(map)
