@@ -9,7 +9,7 @@ Herramientas (toolbox) destinadas a la creación de expedientes del acervo de ex
 La carpeta **Expedientes** contiene herramientas para la creación de los archivos de Registro, la creación de los gpck de los Dibujos y la Retícula y la creación de las imágenes para la Ficha de cada Monumento.
 
 - <a href="https://raw.githack.com/paolazuluaga/TrenMaya/main/Expedientes/ReadMe.html" target="_blank">Descripción del Toolbox para los Expedientes</a>
-<a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Expedientes/Expedientes_toolbox.zip" download>
+<a href="https://github.com/paolazuluaga/TrenMaya/raw/main/Expedientes/Expedientes_toolbox_v1.zip" download>
     <img src="https://img.shields.io/badge/Descargar%20Toolbox%20Expedientes-green?style=for-the-badge&logo=download" alt="Descargar Toolbox_Registros">
   </a>
 
